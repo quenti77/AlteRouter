@@ -1,0 +1,45 @@
+{
+  "name": "quenti77/alterouter",
+  "description": "An alternative of AltoRouter with update of PHP",
+  "type": "library",
+  "require": {
+    "php": "^8.2"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.7",
+    "wp-coding-standards/wpcs": "^2.3",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^10.0",
+    "slevomat/coding-standard": "^8.9"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Alterouter\\": "src/",
+      "Alterouter\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "quenti77",
+      "email": "quentin.ysambert@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "test": [
+      "@phpcs",
+      "@phpstan",
+      "@phpunit"
+    ],
+    "phpcs": "phpcs --standard=phpcs.xml",
+    "phpcbf": "phpcbf --standard=phpcs.xml",
+    "phpstan": "phpstan analyse -c phpstan.neon",
+    "phpunit": "phpunit"
+  }
+}
