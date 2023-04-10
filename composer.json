@@ -15,7 +15,11 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Alterouter\\": "src/",
+      "Alterouter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Alterouter\\Tests\\": "tests/"
     }
   },
