@@ -115,4 +115,41 @@ class AlterouterTest extends TestCase
         $this->assertCount(2, $router->getRoutes());
         $this->assertCount(0, $router->getNamedRoutes());
     }
+
+    public function testItThrowsInvalidArgumentExceptionWithInvalidMethod(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid HTTP method 'FOO'.");
+
+        $router = new Alterouter();
+        $router->addMultipleMethodRoutes('foo', '/foo/bar', function () {
+        });
+    }
+
+    public function testItReturnsNullWhenNoRoutesExistForThisMethod(): void
+    {
+        $router = new Alterouter();
+        $router->addRoute('GET', '/foo/bar', function () {
+        });
+
+        $this->assertNull($router->match('POST', '/foo/bar'));
+    }
+
+    public function testItReturnsNullWhenNoRoutesExistForThisPath(): void
+    {
+        $router = new Alterouter();
+        $router->addRoute('GET', '/foo/bar', function () {
+        });
+
+        $this->assertNull($router->match('GET', '/foo/baz'));
+    }
+
+    public function testItReturnsRouteWhenRouteExists(): void
+    {
+        $router = new Alterouter();
+        $route = $router->addRoute('GET', '/foo/bar', function () {
+        });
+
+        $this->assertSame($route, $router->match('GET', '/foo/bar'));
+    }
 }
