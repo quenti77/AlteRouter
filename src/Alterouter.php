@@ -14,9 +14,15 @@ class Alterouter
     /** @var array<string, Route> */
     protected array $namedRoutes = [];
 
-    public function __construct(private string $basePath = '')
-    {
+    protected PathParameterAliasRegex $pathParameterAliasRegex;
+
+    /** @param array<string, string> $aliases */
+    public function __construct(
+        private string $basePath = '',
+        array $aliases = [],
+    ) {
         $this->basePath = self::trimPath($basePath);
+        $this->pathParameterAliasRegex = new PathParameterAliasRegex($aliases);
     }
 
     public static function trimPath(string $path): string
@@ -34,6 +40,11 @@ class Alterouter
     public function getNamedRoutes(): array
     {
         return $this->namedRoutes;
+    }
+
+    public function getPathParameterAliasRegex(): PathParameterAliasRegex
+    {
+        return $this->pathParameterAliasRegex;
     }
 
     public function get(string $path, callable|string $handler, ?string $name = null): Route
@@ -107,5 +118,26 @@ class Alterouter
         }
 
         return $route;
+    }
+
+    public function match(string $method, string $path): ?Route
+    {
+        $method = strtoupper(trim($method));
+        if (!in_array($method, self::METHODS)) {
+            throw new InvalidArgumentException("Invalid HTTP method '{$method}'.");
+        }
+
+        if (!isset($this->routes[$method])) {
+            return null;
+        }
+
+        $path = self::trimPath($path);
+        foreach ($this->routes[$method] as $route) {
+            if ($route->match($path, $this->pathParameterAliasRegex)) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 }
