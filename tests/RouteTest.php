@@ -98,4 +98,36 @@ class RouteTest extends TestCase
             'page' => '1',
         ], $route->getMatches());
     }
+
+    public function testItGeneratesPathWithNoParameters(): void
+    {
+        $route = new Route('GET', '/blog', function () {
+        });
+        $this->assertSame('/blog', $route->generate([]));
+    }
+
+    public function testItGeneratesPathWithParameters(): void
+    {
+        $route = new Route('GET', '/blog/{id:int}/{slug}/{page}', function () {
+        });
+
+        $this->assertSame('/blog/123/foo-bar/1', $route->generate([
+            'id' => '123',
+            'slug' => 'foo-bar',
+            'page' => '1',
+        ]));
+    }
+
+    public function testItGeneratesPathWithParametersAndQuery(): void
+    {
+        $route = new Route('GET', '/blog/{id:int}/{slug}/{page}', function () {
+        });
+
+        $this->assertSame('/blog/123/foo-bar/1?foo=bar', $route->generate([
+            'id' => '123',
+            'slug' => 'foo-bar',
+            'page' => '1',
+            'foo' => 'bar',
+        ]));
+    }
 }
