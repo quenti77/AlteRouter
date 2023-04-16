@@ -152,4 +152,49 @@ class AlterouterTest extends TestCase
 
         $this->assertSame($route, $router->match('GET', '/foo/bar'));
     }
+
+    public function testItThrowsInvalidArgumentExceptionWhenNamedRouteNotFound(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("No route found for name 'foo'");
+
+        $router = new Alterouter();
+        $router->generate('foo');
+    }
+
+    public function testItGeneratesUrlForNamedRoute(): void
+    {
+        $router = new Alterouter();
+        $router->addRoute('GET', '/foo/bar', function () {
+        }, 'foo.bar');
+
+        $this->assertSame('/foo/bar', $router->generate('foo.bar'));
+    }
+
+    public function testItGeneratesUrlForNamedRouteWithParameters(): void
+    {
+        $router = new Alterouter();
+        $router->addRoute('GET', '/foo/{bar}', function () {
+        }, 'foo.bar');
+
+        $this->assertSame('/foo/baz', $router->generate('foo.bar', ['bar' => 'baz']));
+    }
+
+    public function testItGeneratesUrlForNamedRouteWithParametersAndBasePath(): void
+    {
+        $router = new Alterouter('/api/');
+        $router->addRoute('GET', '/foo/{bar}', function () {
+        }, 'foo.bar');
+
+        $this->assertSame('/api/foo/baz', $router->generate('foo.bar', ['bar' => 'baz']));
+    }
+
+    public function testItGeneratesUrlForNamedRouteWithParametersAndBasePathWithAdditionnalQueryString(): void
+    {
+        $router = new Alterouter('/api/');
+        $router->addRoute('GET', '/foo/{bar}', function () {
+        }, 'foo.bar');
+
+        $this->assertSame('/api/foo/baz?foo=bar', $router->generate('foo.bar', ['bar' => 'baz', 'foo' => 'bar']));
+    }
 }

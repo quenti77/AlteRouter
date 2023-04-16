@@ -87,6 +87,26 @@ class Route
         return true;
     }
 
+    /** @param array<string, string> $parameters */
+    public function generate(array $parameters): string
+    {
+        $matches = [];
+        if (!preg_match_all('/\{([a-zA-Z0-9_\-]+)(?::[a-zA-Z0-9_\-]+)?}/', $this->path, $matches)) {
+            return $this->getUriWithQueryParams($this->path, $parameters);
+        }
+
+        $generatedPath = $this->path;
+        $replaceParameters = array_combine($matches[0], $matches[1]);
+        foreach ($replaceParameters as $search => $key) {
+            $value = $parameters[$key] ?? throw new InvalidArgumentException("Parameter '{$key}' must be defined");
+            $generatedPath = str_replace($search, urlencode($value), $generatedPath);
+
+            unset($parameters[$key]);
+        }
+
+        return $this->getUriWithQueryParams($generatedPath, $parameters);
+    }
+
     /**
      * @param array<int|string, string> $matches
      * @param array<string, string> $aliases
@@ -111,5 +131,15 @@ class Route
             ?? throw new InvalidArgumentException("Alias '{$alias}' is not defined");
 
         return "(?P<{$parameter}>{$pathRegex})";
+    }
+
+    /**
+     * @param array<string, string> $queryParams
+     */
+    private function getUriWithQueryParams(string $uri, array $queryParams): string
+    {
+        return empty($queryParams)
+            ? $uri
+            : sprintf("%s?%s", $uri, http_build_query($queryParams));
     }
 }

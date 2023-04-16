@@ -140,4 +140,17 @@ class Alterouter
 
         return null;
     }
+
+    /**
+     * @param array<string, string> $parameters
+     */
+    public function generate(string $name, array $parameters = []): string
+    {
+        if (!isset($this->namedRoutes[$name])) {
+            throw new InvalidArgumentException("No route found for name '{$name}'");
+        }
+        $generatedPath = $this->namedRoutes[$name]->generate($parameters);
+
+        return "/{$generatedPath}";
+    }
 }
