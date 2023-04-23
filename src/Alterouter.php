@@ -42,11 +42,6 @@ class Alterouter
         return $this->namedRoutes;
     }
 
-    public function getPathParameterAliasRegex(): PathParameterAliasRegex
-    {
-        return $this->pathParameterAliasRegex;
-    }
-
     public function get(string $path, callable|string $handler, ?string $name = null): Route
     {
         return $this->addRoute('GET', $path, $handler, $name);
@@ -82,23 +77,6 @@ class Alterouter
         return $this->addRoute('OPTIONS', $path, $handler, $name);
     }
 
-    /**
-     * @param array<string> $methods
-     * @return array<Route>
-     */
-    public function addMultipleMethodRoutes(array|string $methods, string $path, callable|string $handler): array
-    {
-        if (is_string($methods)) {
-            $methods = explode('|', $methods);
-        }
-
-        $routes = [];
-        foreach ($methods as $method) {
-            $routes[] = $this->addRoute($method, $path, $handler);
-        }
-        return $routes;
-    }
-
     public function addRoute(string $method, string $path, callable|string $handler, ?string $name = null): Route
     {
         $method = strtoupper(trim($method));
@@ -118,6 +96,23 @@ class Alterouter
         }
 
         return $route;
+    }
+
+    /**
+     * @param array<string> $methods
+     * @return array<Route>
+     */
+    public function addMultipleMethodRoutes(array|string $methods, string $path, callable|string $handler): array
+    {
+        if (is_string($methods)) {
+            $methods = explode('|', $methods);
+        }
+
+        $routes = [];
+        foreach ($methods as $method) {
+            $routes[] = $this->addRoute($method, $path, $handler);
+        }
+        return $routes;
     }
 
     public function match(string $method, string $path): ?Route
