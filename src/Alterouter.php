@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 class Alterouter
 {
-    private const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
+    public const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'];
 
     /** @var array<string, array<Route>> */
     protected array $routes = [];

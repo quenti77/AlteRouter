@@ -21,6 +21,10 @@ class Route
         callable|string $handler,
         private readonly ?string $name = null,
     ) {
+        if (!in_array($this->method, Alterouter::METHODS)) {
+            throw new InvalidArgumentException("Invalid HTTP method '{$this->method}'");
+        }
+
         $this->handler = $handler;
     }
 

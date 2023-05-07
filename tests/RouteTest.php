@@ -18,6 +18,15 @@ class RouteTest extends TestCase
         $this->aliases = new PathParameterAliasRegex();
     }
 
+    public function testItThrowsExceptionWhenCreatingRouteWithInvalidMethod(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Invalid HTTP method 'FOO'");
+
+        new Route('FOO', '/', function () {
+        });
+    }
+
     public function testItReturnsNotCallableWithStringCallable(): void
     {
         $route = new Route('GET', '/', 'foo');
