@@ -1,3 +1,6 @@
 .idea
 vendor
 cache
+AlteRouter-Docs/node_modules
+AlteRouter-Docs/.vitepress/cache
+AlteRouter-Docs/.vitepress/dist
