@@ -119,10 +119,6 @@ class Route
     private function transformPathMatcher(array $matches, array $aliases): string
     {
         array_shift($matches);
-        if (empty($matches)) {
-            throw new InvalidArgumentException('Path matcher is empty');
-        }
-
         if (count($matches) === 1) {
             $matches[] = '__all';
         }

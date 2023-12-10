@@ -17,7 +17,9 @@ class Request
         $path = parse_url($path, PHP_URL_PATH);
 
         if (!is_string($path)) {
+            // @codeCoverageIgnoreStart
             throw new InvalidArgumentException('Invalid path');
+            // @codeCoverageIgnoreEnd
         }
         return rawurldecode($path);
     }
