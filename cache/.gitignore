@@ -1,0 +1,4 @@
+*
+!phpstan
+!phpunit
+!.gitignore

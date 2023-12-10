@@ -45,6 +45,6 @@
     "phpcs": "phpcs --standard=phpcs.xml",
     "phpcbf": "phpcbf --standard=phpcs.xml",
     "phpstan": "phpstan analyse -c phpstan.neon",
-    "phpunit": "phpunit"
+    "phpunit": "XDEBUG_MODE=coverage phpunit"
   }
 }

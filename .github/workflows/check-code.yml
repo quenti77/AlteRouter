@@ -1,0 +1,38 @@
+name: check-code
+run-name: Check code
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+   run-test:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v3
+       - name: Setup composer
+         uses: php-actions/composer@v6
+         with:
+           php_version: '8.2'
+           command: install
+       - uses: php-actions/composer@v6
+         with:
+           php_version: '8.2'
+           php_extensions: xdebug
+           command: test
+       - name: Make code coverage badge
+         uses: timkrase/phpunit-coverage-badge@v1.2.1
+         with:
+           coverage_badge_path: output/coverage.svg
+           push_badge: false
+       - name: Git push to image-data branch
+         uses: peaceiris/actions-gh-pages@v3
+         with:
+           publish_dir: ./output
+           publish_branch: image-data
+           github_token: ${{ secrets.GITHUB_TOKEN }}
+           user_name: 'github-actions[bot]'
+           user_email: 'github-actions[bot]@users.noreply.github.com'
