@@ -53,6 +53,8 @@ class AlterouterTest extends TestCase
 
         $this->assertSame('POST', $route->getMethod());
         $this->assertSame('foo/bar', $route->getPath());
+        $this->assertSame('foo.bar', $route->getName());
+        $this->assertIsCallable($route->getHandler());
         $this->assertCount(1, $router->getRoutes());
         $this->assertCount(1, $router->getNamedRoutes());
     }
@@ -124,6 +126,15 @@ class AlterouterTest extends TestCase
         $router = new Alterouter();
         $router->addMultipleMethodRoutes('foo', '/foo/bar', function () {
         });
+    }
+
+    public function testItReturnsNullWhenBadMethodPassed(): void
+    {
+        $router = new Alterouter();
+        $router->addRoute('GET', '/foo/bar', function () {
+        });
+
+        $this->assertNull($router->match('FOO', '/foo/bar'));
     }
 
     public function testItReturnsNullWhenNoRoutesExistForThisMethod(): void
