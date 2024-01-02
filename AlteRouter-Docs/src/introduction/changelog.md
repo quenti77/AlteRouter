@@ -2,9 +2,14 @@
 
 [[toc]]
 
+## 0.1.3
+
+- Added a coverage report when the merge request is created.
+- Fix code for cover the 100% of the code.
+
 ## 0.1.2
 
-Add a check on the method of a route.
+- Add a check on the method of a route.
 
 ### Add
 

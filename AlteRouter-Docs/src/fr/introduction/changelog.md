@@ -2,9 +2,14 @@
 
 [[toc]]
 
+## 0.1.3
+
+- Ajout d'un rapport de couverture lors de la création de la demande de fusion.
+- Correction du code pour couvrir 100% du code.
+
 ## 0.1.2
 
-Ajout d'une vérification sur la méthode d'une route.
+- Ajout d'un contrôle sur la méthode d'une route.
 
 ### Ajouts
 
