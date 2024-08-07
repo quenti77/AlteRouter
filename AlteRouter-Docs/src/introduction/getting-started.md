@@ -91,7 +91,7 @@ if ($route !== null) {
     if (is_string($route->getHandler())) {
         [$controller, $method] = explode('@', $route->getHandler());
         $controller = new $controller();
-        $controller->$method($route->getParams());
+        $controller->$method($route->getMatches());
     } else {
         call_user_func_array($route->getHandler(), $route->getParams());
     }
