@@ -30,7 +30,7 @@
     }
   ],
   "minimum-stability": "stable",
-  "version": "0.1.3",
+  "version": "0.2",
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
