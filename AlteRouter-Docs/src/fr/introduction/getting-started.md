@@ -95,7 +95,7 @@ if ($route !== null) {
         $controller = new $controller();
         $controller->$method($route->getMatches());
     } else {
-        call_user_func_array($route->getHandler(), $route->getParams());
+        call_user_func_array($route->getHandler(), $route->getMatches());
     }
 }
 ```
